@@ -10,11 +10,6 @@ import (
 )
 
 func main() {
-	if os.Getenv("MOCK_MODE") == "true" {
-		app.SetupMock()
-		return
-	}
-
 	app.SetupDB()
 	defer app.CloseDB()
 

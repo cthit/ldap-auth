@@ -51,6 +51,3 @@ the token has the payload
 }
 ```
 and is signed by the secret ```hellotherethisisasecret```. You can check the token at https://jwt.io/ if you want. If the token is valid, you can assume the user has been loged in and verified with the ldap.
-
-## Mock
-By setting environment variable ```MOCK_MODE``` to ```"true"``` the ldap-auth will run in mock-mode. The Dummy Application above will be the only application available and ldap-auth will not authenticate with ldap and only returning a token for ```testUser```.
