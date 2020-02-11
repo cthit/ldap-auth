@@ -2,11 +2,11 @@ package main
 
 import (
 	"log"
-	"net/http"
 	"os"
 
 	"chalmers.it/ldap-auth/internal/app"
-	"github.com/rs/cors"
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -24,19 +24,18 @@ func main() {
 	}
 
 	log.Println("Starting")
-	mux := http.NewServeMux()
-	c := cors.New(cors.Options{
-		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowedOrigins:   []string{"https://ldap-auth.chalmers.it", "http://localhost:3000"},
-		AllowedHeaders:   []string{"Content-Type"},
-		AllowCredentials: true})
+	router := gin.Default()
+	router.Use(cors.New(cors.Config{
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowOrigins:     []string{"https://ldap-auth.chalmers.it", "http://localhost:3000"},
+		AllowHeaders:     []string{"Content-Type"},
+		AllowCredentials: true}))
 
-	mux.HandleFunc("/api/authenticate", app.HandleAuthenticate)
-	mux.HandleFunc("/api/application/add", app.AddApplication)
-	mux.HandleFunc("/api/application/delete", app.DeleteApplication)
-	mux.HandleFunc("/api/application", app.CheckClientId)
-	mux.HandleFunc("/api/applications", app.GetApplications)
+	router.POST("/api/authenticate", app.HandleAuthenticate)
+	router.POST("/api/application", app.AddApplication)
+	router.DELETE("/api/application", app.DeleteApplication)
+	router.GET("/api/application", app.CheckClientId)
+	router.GET("/api/applications", app.GetApplications)
 
-	handler := c.Handler(mux)
-	log.Fatal(http.ListenAndServe(":5011", handler))
+	router.Run(":5011")
 }

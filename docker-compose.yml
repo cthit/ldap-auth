@@ -21,8 +21,8 @@ services:
       LDAP_AUTH_POSTGRES_PORT: 5432
       LDAP_AUTH_POSTGRES_DB: ldap-auth
 
-      MOCK_MODE: "false"
-      ADD_DUMMY_APP: "true" 
+      ADD_DUMMY_APP: "true"
+      GIN_MODE: debug
     ports:
       - 5011:5011
 
