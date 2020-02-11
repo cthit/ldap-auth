@@ -1,0 +1,47 @@
+version: "2"
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ldap-auth
+      POSTGRES_DB: ldap-auth
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5432:5432
+
+  backend:
+    build:
+      context: ./backend/
+      dockerfile: dev.Dockerfile
+    environment: 
+      LDAP_AUTH_POSTGRES_USER: ldap-auth
+      LDAP_AUTH_POSTGRES_PASSWORD: password
+      LDAP_AUTH_POSTGRES_HOST: db
+      LDAP_AUTH_POSTGRES_PORT: 5432
+      LDAP_AUTH_POSTGRES_DB: ldap-auth
+
+      MOCK_MODE: "false"
+      ADD_DUMMY_APP: "true" 
+    ports:
+      - 5011:5011
+
+  #frontend:
+  #  build:
+  #    context: ./frontend/
+  #    dockerfile: dev.Dockerfile
+  #  volumes:
+  #    - ./frontend/src:/usr/src
+  #  ports:
+  #    - 3011:3011
+
+  # For testing ldap queries
+  #slapd:
+  #  image: nickstenning/slapd
+  #  environment:
+  #    LDAP_DOMAIN: chalmers.it
+  #    LDAP_ORGANISATION: Chalmers IT
+  #    LDAP_ROOTPASS: password
+  #
+  #  ports:
+  #    - 389:389
