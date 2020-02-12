@@ -1,5 +1,9 @@
 import React, { Component } from "react";
-import { DigitLoading } from "@cthit/react-digit-components";
+import {
+    DigitLoading,
+    DigitDesign,
+    DigitText
+} from "@cthit/react-digit-components";
 import LoginPrompt from "./login-prompt";
 import { getBackendUrl } from "../../common/environment";
 import { WrapCenter } from "./login.style";
@@ -14,6 +18,7 @@ class Login extends Component {
             client_name: "",
             client_description: "",
             client_id: params.get("client_id"),
+            clientNotFound: false,
             loading: true
         };
 
@@ -28,7 +33,10 @@ class Login extends Component {
                 })
             )
             .catch(error => {
-                console.log("Resource not found");
+                this.setState({
+                    loading: false,
+                    clientNotFound: true
+                });
                 console.log(error);
             });
     }
@@ -37,6 +45,8 @@ class Login extends Component {
         <WrapCenter>
             {this.state.loading ? (
                 <DigitLoading />
+            ) : this.state.clientNotFound ? (
+                <ClientNotFound />
             ) : (
                 <LoginPrompt
                     clientName={this.state.client_name}
@@ -47,4 +57,16 @@ class Login extends Component {
         </WrapCenter>
     );
 }
+
+const ClientNotFound = () => (
+    <DigitDesign.Card width="20rem">
+        <DigitDesign.CardHeader>
+            <DigitDesign.CardTitle text={"Something went wrong :("} />
+        </DigitDesign.CardHeader>
+        <DigitDesign.CardBody>
+            <DigitText.Text text={"If you need help, contact digIT"} />
+        </DigitDesign.CardBody>
+    </DigitDesign.Card>
+);
+
 export default Login;

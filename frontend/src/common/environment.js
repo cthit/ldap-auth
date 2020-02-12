@@ -1,6 +1,6 @@
 const development = {
     frontend: "http://localhost:3011",
-    backend: "http://localhost:50011/api"
+    backend: "http://localhost:5011/api"
 };
 
 const production = {

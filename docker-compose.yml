@@ -26,14 +26,14 @@ services:
     ports:
       - 5011:5011
 
-  #frontend:
-  #  build:
-  #    context: ./frontend/
-  #    dockerfile: dev.Dockerfile
-  #  volumes:
-  #    - ./frontend/src:/usr/src
-  #  ports:
-  #    - 3011:3011
+  frontend:
+    build:
+      context: ./frontend/
+      dockerfile: dev.Dockerfile
+    volumes:
+      - ./frontend/src:/usr/src
+    ports:
+      - 3011:3011
 
   # For testing ldap queries
   #slapd:

@@ -21,9 +21,10 @@ func main() {
 	log.Println("Starting")
 	router := gin.Default()
 	router.Use(cors.New(cors.Config{
-		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowOrigins:     []string{"https://ldap-auth.chalmers.it", "http://localhost:3000"},
-		AllowHeaders:     []string{"Content-Type"},
+		AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowOrigins: []string{"https://ldap-auth.chalmers.it", "http://localhost:3011"},
+		AllowHeaders: []string{"Content-Type"},
+
 		AllowCredentials: true}))
 
 	router.POST("/api/authenticate", app.HandleAuthenticate)
