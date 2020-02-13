@@ -1,8 +1,10 @@
 package app
 
 import (
+	"crypto/tls"
 	"errors"
 	"fmt"
+	"os"
 
 	"github.com/dgrijalva/jwt-go"
 	"gopkg.in/ldap.v3"
@@ -15,8 +17,10 @@ type User struct {
 	jwt.StandardClaims
 }
 
+var ldap_url = os.Getenv("LDAP_URL")
+
 func login_ldap(cid string, pass string) (User, error) {
-	conn, err := ldap.DialURL("ldap://kamino.chalmers.it")
+	conn, err := ldap.DialTLS("tcp", ldap_url, &tls.Config{ServerName: "chalmers.it"})
 	if err != nil {
 		return User{}, errors.New("Could not connect to ldap")
 	}

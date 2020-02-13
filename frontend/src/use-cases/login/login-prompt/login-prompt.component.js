@@ -31,7 +31,7 @@ const LoginPrompt = ({ clientName, description, clientId }) => {
                 )
                     .then(res => {
                         window.location.replace(
-                            `${res.callback_url}?token=${res.data.token}`
+                            `${res.data.callback_url}?token=${res.data.token}`
                         );
                     })
                     .catch(error => {

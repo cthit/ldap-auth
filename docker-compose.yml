@@ -2,7 +2,6 @@ version: "2"
 services:
   db:
     image: postgres
-    restart: always
     environment:
       POSTGRES_USER: ldap-auth
       POSTGRES_DB: ldap-auth
@@ -21,6 +20,7 @@ services:
       LDAP_AUTH_POSTGRES_PORT: 5432
       LDAP_AUTH_POSTGRES_DB: ldap-auth
 
+      LDAP_URL: ldap.chalmers.it:636
       ADD_DUMMY_APP: "true"
       GIN_MODE: debug
     ports:
