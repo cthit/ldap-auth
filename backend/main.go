@@ -23,7 +23,7 @@ func main() {
 	router.Use(cors.New(cors.Config{
 		AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowOrigins: []string{"https://ldap-auth.chalmers.it", "http://localhost:3011"},
-		AllowHeaders: []string{"Content-Type"},
+		AllowHeaders: []string{"Content-Type", "Authorization"},
 
 		AllowCredentials: true}))
 
