@@ -23,8 +23,10 @@ services:
       LDAP_URL: ldap.chalmers.it:636
       ADD_DUMMY_APP: "true"
       GIN_MODE: debug
+    volumes:
+      - ./backend/:/go/src/app
     ports:
-      - 5011:5011
+      - 5011:3000
 
   frontend:
     build:

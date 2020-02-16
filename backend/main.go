@@ -33,5 +33,5 @@ func main() {
 	router.GET("/api/application", app.CheckClientId)
 	router.GET("/api/applications", app.GetApplications)
 
-	router.Run(":5011")
+	router.Run(":3001")
 }
