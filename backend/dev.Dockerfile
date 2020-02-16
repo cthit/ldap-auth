@@ -4,5 +4,6 @@ COPY . .
 
 RUN go mod download
 RUN go get -d
+RUN go get github.com/codegangsta/gin
 
-CMD ["go", "run", "main.go"]
+CMD ["gin", "-i", "run", "main.go"]

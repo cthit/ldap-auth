@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -150,9 +151,19 @@ func HandleAuthenticate(c *gin.Context) {
 }
 
 func isDigit(c *gin.Context) bool {
-	cid := c.Request.URL.Query().Get("cid")
-	password := c.Request.URL.Query().Get("password")
-	user, err := login_ldap(cid, password)
+	headerAuth := c.GetHeader("Authorization")
+	if !strings.HasPrefix(headerAuth, "Basic") {
+		return false
+	}
+
+	decoded, err := base64.RawStdEncoding.DecodeString(strings.Split(headerAuth, " ")[1])
+	if err != nil {
+		return false
+	}
+
+	cidAndPass := strings.Split(string(decoded), ":")
+
+	user, err := login_ldap(cidAndPass[0], cidAndPass[1])
 	if err != nil || !contains(user.Groups, "digit") {
 		return false
 	}

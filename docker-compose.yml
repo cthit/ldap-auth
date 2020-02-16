@@ -2,7 +2,6 @@ version: "2"
 services:
   db:
     image: postgres
-    restart: always
     environment:
       POSTGRES_USER: ldap-auth
       POSTGRES_DB: ldap-auth
@@ -21,19 +20,22 @@ services:
       LDAP_AUTH_POSTGRES_PORT: 5432
       LDAP_AUTH_POSTGRES_DB: ldap-auth
 
+      LDAP_URL: ldap.chalmers.it:636
       ADD_DUMMY_APP: "true"
       GIN_MODE: debug
+    volumes:
+      - ./backend/:/go/src/app
     ports:
-      - 5011:5011
+      - 5011:3000
 
-  #frontend:
-  #  build:
-  #    context: ./frontend/
-  #    dockerfile: dev.Dockerfile
-  #  volumes:
-  #    - ./frontend/src:/usr/src
-  #  ports:
-  #    - 3011:3011
+  frontend:
+    build:
+      context: ./frontend/
+      dockerfile: dev.Dockerfile
+    volumes:
+      - ./frontend/src:/usr/src
+    ports:
+      - 3011:3011
 
   # For testing ldap queries
   #slapd:

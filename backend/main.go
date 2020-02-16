@@ -10,11 +10,6 @@ import (
 )
 
 func main() {
-	if os.Getenv("MOCK_MODE") == "true" {
-		app.SetupMock()
-		return
-	}
-
 	app.SetupDB()
 	defer app.CloseDB()
 
@@ -26,9 +21,10 @@ func main() {
 	log.Println("Starting")
 	router := gin.Default()
 	router.Use(cors.New(cors.Config{
-		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowOrigins:     []string{"https://ldap-auth.chalmers.it", "http://localhost:3000"},
-		AllowHeaders:     []string{"Content-Type"},
+		AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowOrigins: []string{"https://ldap-auth.chalmers.it", "http://localhost:3011"},
+		AllowHeaders: []string{"Content-Type", "Authorization"},
+
 		AllowCredentials: true}))
 
 	router.POST("/api/authenticate", app.HandleAuthenticate)
@@ -37,5 +33,5 @@ func main() {
 	router.GET("/api/application", app.CheckClientId)
 	router.GET("/api/applications", app.GetApplications)
 
-	router.Run(":5011")
+	router.Run(":3001")
 }

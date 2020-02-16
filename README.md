@@ -1,5 +1,5 @@
 # ldap-auth
-This is a temporary service for authenticating it-students, via ```ldap://kamino.chalmers.it```, at the chalmers IT division.
+This is a temporary service for authenticating it-students, via ```ldap.chalmers.it```, at the chalmers IT division.
 ## Setup
 Before using the service, you need to do som setup. You application has to be added to the ldap-auth application database where the following information has to be provided. <br>
 ### 
@@ -8,6 +8,14 @@ Before using the service, you need to do som setup. You application has to be ad
 - Callback URL - the url to which ldap-auth will call back when a user successfully logged in ex: ```http://localhost:3000/callback```
 ### 
 Adding the application to the database you will receive a ```secret``` and a ```client id```. The client id is public, but the secret should be kept secret and never leave the backend. <br>
+### Rest
+Only members of digIT can manipulate the application database and it must be done via http-request to the backend. <br>
+Include the `Authorization` in the header like this
+```
+Authorization: Basic <'cid:password' encoded with base64>
+```
+Get all applications with `GET` request to `/api/applications`. Create new applications by `POST` request to `/api/application` providing `name`, `description` and `callback_url` via json body. Delete an application with `DELETE` request to `/api/application?client_id=<id of application>`.
+
 ## Usage
 Redirect the user to the following location, assuming ldap-auth is running at url ```https://ldap-auth.chalmers.it```.<br>
 ```
@@ -50,7 +58,4 @@ the token has the payload
   ]
 }
 ```
-and is signed by the secret ```hellotherethisisasecret```. You can check the token at https://jwt.io/ if you want. If the token is valid, you can assume the user has been loged in and verified with the ldap.
-
-## Mock
-By setting environment variable ```MOCK_MODE``` to ```"true"``` the ldap-auth will run in mock-mode. The Dummy Application above will be the only application available and ldap-auth will not authenticate with ldap and only returning a token for ```testUser```.
+and is signed by the secret ```hellotherethisisasecret```. You can check the token at https://jwt.io/ if you want. If the token is valid, you can assume the user has been logged in and verified with the ldap.
