@@ -1,4 +1,4 @@
-<h1 style="color: red">OBS: This service has been deprecated and replaced by <a href="https://github.com/cthit/gamma">Gamma</a> and is no longer in use</h1>
+# OBS: This service has been deprecated and replaced by [Gamma](https://github.com/cthit/gamma) and is no longer in use
 
 # ldap-auth
 This is a temporary service for authenticating it-students, via ```ldap.chalmers.it```, at the chalmers IT division.
